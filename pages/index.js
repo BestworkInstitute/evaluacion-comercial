@@ -162,6 +162,52 @@ export default function Home() {
           <p><strong>Cantidad de documentos más de 24 meses:</strong> {googleSheetsResult["Cantidad de documentos más de 24 meses"]}</p>
           <p><strong>Monto más de 24 meses:</strong> {googleSheetsResult["Monto más de 24 meses"]}</p>
           <p><strong>Total Acreedores:</strong> {googleSheetsResult["Total Acreedores"]}</p>
+
+          {/* Botón SOLICITAR REVISIÓN */}
+          <div style={{ marginTop: "20px", textAlign: "center" }}>
+            <button
+              onClick={async () => {
+                try {
+                  const response = await fetch("https://flows.messagebird.com/flows/b3dc3cac-a552-4082-ba93-28fc49efcb98/invoke", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      RUT: rut,
+                      CELULAR: selectedEjecutiva.telefono,
+                      ESTADO: googleSheetsResult.approvalStatus,
+                      AA: googleSheetsResult["Cantidad de documentos menos de 24 meses"],
+                      BB: googleSheetsResult["Monto menos de 24 meses"],
+                      CC: googleSheetsResult["Cantidad de documentos más de 24 meses"],
+                      DD: googleSheetsResult["Monto más de 24 meses"],
+                      EE: googleSheetsResult["Total Acreedores"],
+                    }),
+                  });
+
+                  if (response.ok) {
+                    alert("¡Solicitud de revisión enviada con éxito!");
+                  } else {
+                    alert("Error al enviar la solicitud. Por favor, inténtalo nuevamente.");
+                  }
+                } catch (error) {
+                  alert("Hubo un problema al enviar la solicitud. Verifica tu conexión.");
+                  console.error("Error en solicitud:", error);
+                }
+              }}
+              style={{
+                padding: "10px 20px",
+                backgroundColor: "#D32F2F",
+                color: "white",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer",
+                fontWeight: "bold",
+              }}
+            >
+              SOLICITAR REVISIÓN
+            </button>
+          </div>
         </div>
       )}
     </div>
