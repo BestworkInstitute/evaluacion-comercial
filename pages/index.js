@@ -175,6 +175,7 @@ export default function Home() {
                     },
                     body: JSON.stringify({
                       RUT: rut,
+                      EJECUTIVA: selectedEjecutiva.nombre,
                       CELULAR: selectedEjecutiva.telefono,
                       ESTADO: googleSheetsResult.approvalStatus,
                       AA: googleSheetsResult["Cantidad de documentos menos de 24 meses"],
